@@ -5,7 +5,10 @@ export default async function Home() {
   const posts = getAllPosts();
 
   return (
-    <div className="container-header">
+    <div
+      className="container-header"
+      style={{ paddingTop: "var(--list-top-margin)" }}
+    >
       <ul className="text-left w-full">
         {posts.map((post) => {
           let formattedDate = "";

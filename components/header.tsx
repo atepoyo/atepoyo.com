@@ -6,7 +6,10 @@ export default function Header() {
       <div className="container-header">
         <nav
           className="flex justify-between items-center"
-          style={{ height: "var(--header-height)" }}
+          style={{
+            height: "var(--header-height)",
+            padding: "var(--header-padding) 0",
+          }}
         >
           <div className="font-bold text-xl">
             <Link href="/">atepoyo.com</Link>

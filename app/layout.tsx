@@ -12,12 +12,14 @@ export default function RootLayout({
     <html lang="ja">
       <body
         className="flex flex-col min-h-screen"
-        style={{ "--header-height": "6rem" } as React.CSSProperties}
         suppressHydrationWarning
       >
         <ThemeProvider>
           <Header />
-          <main className="flex-grow" style={{ paddingTop: "var(--header-height)" }}>
+          <main
+            className="flex-grow"
+            style={{ paddingTop: "var(--content-top-margin)" }}
+          >
             {children}
           </main>
           <Footer />
