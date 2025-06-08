@@ -55,7 +55,7 @@ a:hover {
   text-decoration: underline;
 }
 
-header, .header-bg {
+header, .header-bg, footer {
   background-color: #e9ffe9 !important;
 }
 
