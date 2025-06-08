@@ -17,10 +17,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <Header />
-          <main
-            className="flex-grow container mx-auto px-4 mt-16"
-            style={{ paddingTop: "var(--header-height)" }}
-          >
+          <main className="flex-grow" style={{ paddingTop: "var(--header-height)" }}>
             {children}
           </main>
           <Footer />
