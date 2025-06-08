@@ -29,19 +29,19 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol {
 /* Set a global font and background */
 body {
   font-family: Arial, sans-serif;
-  background-color: #333333; /* デフォルト: theme-night */
-  color: #ccffcc; /* デフォルト: theme-night */
+  background-color: #e9ffe9;
+  color: #333333;
   line-height: 1.6;
 }
 
 /* Links styling */
 a {
-  color: #99ccff; /* デフォルト: theme-night */
+  color: #3399cc;
   text-decoration: none;
 }
 
 a:visited {
-  color: #cc99ff; /* デフォルト: theme-night */
+  color: #9966cc;
 }
 
 a:hover {
@@ -49,7 +49,7 @@ a:hover {
 }
 
 header, .header-bg {
-  background-color: #336633 !important; /* デフォルト: theme-night */
+  background-color: #e9ffe9 !important;
 }
 
 /* Tailwindのcontainerクラスを無効化 */
@@ -128,36 +128,7 @@ article code, .prose code {
   border-radius: 3px;
   font-size: 0.95em;
 }
-
-.theme-day body, body.theme-day {
-  background-color: #e9ffe9;
-  color: #333333;
-}
-.theme-day a {
-  color: #3399cc;
-}
-.theme-day a:visited {
-  color: #9966cc;
-}
-.theme-day header, .theme-day .header-bg, body.theme-day header, body.theme-day .header-bg {
-  background-color: #e9ffe9 !important;
-}
-
-.theme-night body, body.theme-night {
-  background-color: #333333;
-  color: #ccffcc;
-}
-.theme-night a {
-  color: #99ccff;
-}
-.theme-night a:visited {
-  color: #cc99ff;
-}
-.theme-night header, .theme-night .header-bg, body.theme-night header, body.theme-night .header-bg {
-  background-color: #336633 !important;
-}
-
-footer {
-  background-color: #e9ffe9 !important;
-  color: #ccffcc;
+article p, .prose p {
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
 }
