@@ -1,7 +1,7 @@
 import { getPostsByGenre } from "@/lib/posts";
 import Link from "next/link";
 
-export default async function GenrePage({ params }: { params: { genre: string } }) {
+export default async function GenrePage({ params }: { params: Promise<{ genre: string }> }) {
   const { genre } = await params;
   const posts = getPostsByGenre(genre);
 
