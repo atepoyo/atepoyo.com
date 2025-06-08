@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --header-height: 60px; /* ヘッダーの高さを定義 */
 }
 
 @theme inline {
@@ -19,8 +20,144 @@
   }
 }
 
+/* Reset some default styles */
+body, h1, h2, h3, h4, h5, h6, p, ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set a global font and background */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, sans-serif;
+  background-color: #333333; /* デフォルト: theme-night */
+  color: #ccffcc; /* デフォルト: theme-night */
+  line-height: 1.6;
+}
+
+/* Links styling */
+a {
+  color: #99ccff; /* デフォルト: theme-night */
+  text-decoration: none;
+}
+
+a:visited {
+  color: #cc99ff; /* デフォルト: theme-night */
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+header, .header-bg {
+  background-color: #336633 !important; /* デフォルト: theme-night */
+}
+
+/* Tailwindのcontainerクラスを無効化 */
+.container {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 統一されたコンテナスタイル */
+.page-container, .custom-narrow, .container-header {
+  max-width: 900px; /* 最大幅を統一 */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: min(4vw, 32px);
+  padding-right: min(4vw, 32px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+/* Markdown記事本文用のスタイル */
+article h1, .prose h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 2rem 0 1rem 0;
+}
+article h2, .prose h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1.5rem 0 1rem 0;
+}
+article h3, .prose h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 1.2rem 0 0.8rem 0;
+}
+article ul, .prose ul {
+  list-style: disc inside;
+  margin: 1rem 0 1rem 1.5rem;
+}
+article ol, .prose ol {
+  list-style: decimal inside;
+  margin: 1rem 0 1rem 1.5rem;
+}
+article li, .prose li {
+  margin-bottom: 0.5rem;
+}
+article blockquote, .prose blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 1rem;
+  color: #666;
+  margin: 1rem 0;
+}
+article pre, .prose pre {
+  background: #f4f4f4;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+article code, .prose code {
+  background: #f4f4f4;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.95em;
+}
+
+.theme-day body, body.theme-day {
+  background-color: #e9ffe9;
+  color: #333333;
+}
+.theme-day a {
+  color: #3399cc;
+}
+.theme-day a:visited {
+  color: #9966cc;
+}
+.theme-day header, .theme-day .header-bg, body.theme-day header, body.theme-day .header-bg {
+  background-color: #e9ffe9 !important;
+}
+
+.theme-night body, body.theme-night {
+  background-color: #333333;
+  color: #ccffcc;
+}
+.theme-night a {
+  color: #99ccff;
+}
+.theme-night a:visited {
+  color: #cc99ff;
+}
+.theme-night header, .theme-night .header-bg, body.theme-night header, body.theme-night .header-bg {
+  background-color: #336633 !important;
+}
+
+footer {
+  background-color: #e9ffe9 !important;
+  color: #ccffcc;
 }
