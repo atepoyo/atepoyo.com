@@ -3,7 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --header-height: 60px; /* ヘッダーの高さを定義 */
+  --header-height: 6rem; /* ヘッダー自体の高さ */
+  --header-padding: 0.5rem; /* ヘッダーの上下パディング */
+  --article-top-margin: 0rem; /* 記事ページの上部余白 */
+  --list-top-margin: 2rem; /* 記事一覧ページの上部余白 */
 }
 
 @theme inline {
