@@ -27,6 +27,10 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol {
 }
 
 /* Set a global font and background */
+html {
+  overflow-y: scroll;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #e9ffe9;
@@ -59,13 +63,22 @@ header, .header-bg {
   padding: 0 !important;
 }
 
-/* 統一されたコンテナスタイル */
-.page-container, .custom-narrow, .container-header {
-  max-width: 900px; /* 最大幅を統一 */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: min(4vw, 32px);
-  padding-right: min(4vw, 32px);
+/* コンテナスタイルの統一 */
+.container-header {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-left: 32px;
+  padding-right: 32px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* レガシーコンテナ（使用していない場合は削除可能） */
+.page-container, .custom-narrow {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-left: 32px;
+  padding-right: 32px;
   width: 100%;
   box-sizing: border-box;
 }

@@ -23,7 +23,7 @@ export default async function PostPage({
   }
 
   return (
-    <article className="container-header mt-32">
+    <article className="container-header" style={{ paddingTop: "var(--header-height)" }}>
       <h1 className="text-2xl font-bold mb-8 pt-8">{post.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
     </article>
