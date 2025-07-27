@@ -48,6 +48,37 @@ export function getAllPosts() {
   return posts;
 }
 
+// RSSフィード生成関数
+export function generateRSSFeed(siteUrl: string = "https://atepoyo.com") {
+  const posts = getAllPosts();
+  const items = posts
+    .map(
+      (post) => `
+    <item>
+      <title>${post.title}</title>
+      <link>${siteUrl}/articles/${post.slug}</link>
+      <description>${post.excerpt.replace(/<[^>]+>/g, "")}</description>
+      <pubDate>${new Date(post.date).toUTCString()}</pubDate>
+      <guid>${siteUrl}/articles/${post.slug}</guid>
+    </item>`
+    )
+    .join("");
+
+  const rss = `<?xml version="1.0" encoding="UTF-8" ?>
+  <rss version="2.0">
+    <channel>
+      <title>atepoyo.com</title>
+      <link>${siteUrl}</link>
+      <description>ブログのRSSフィード</description>
+      ${items}
+    </channel>
+  </rss>`;
+
+  // public/rss.xmlに書き出し
+  const rssPath = path.join(process.cwd(), "public", "rss.xml");
+  fs.writeFileSync(rssPath, rss);
+}
+
 export function getPostsByGenre(genre: string) {
   const posts = getAllPosts();
   return posts.filter((post) => post.genre === genre);
