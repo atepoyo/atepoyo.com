@@ -16,7 +16,7 @@ export async function GET() {
     updated: now,
     generator: "atepoyo-com",
     feedLinks: {
-      rss2: `${siteUrl}/rss.xml`,
+      rss: `${siteUrl}/rss.xml`,
     },
     copyright: "© 2024 atepoyo.com",
   });
