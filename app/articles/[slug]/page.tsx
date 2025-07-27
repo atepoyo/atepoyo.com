@@ -32,3 +32,12 @@ export default async function PostPage({
     </article>
   );
 }
+
+export async function generateMetadata({ params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+  return { title: post.title };
+}
