@@ -3,7 +3,7 @@ import { getAllPosts, getPostBySlug } from "@/lib/posts";
 
 export async function GET() {
   const posts = getAllPosts();
-  const siteUrl = "http://localhost:3000";
+  const siteUrl = "https://atepoyo.com";
   const now = new Date();
 
   // Feed オブジェクトを作成
