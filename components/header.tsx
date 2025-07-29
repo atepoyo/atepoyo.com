@@ -16,13 +16,13 @@ export default function Header() {
           </div>
           <ul className="flex space-x-4">
             <li>
-              <Link href="/">記事一覧</Link>
+              <Link href="/">全部</Link>
             </li>
             <li>
-              <Link href="/genres">ジャンル</Link>
+              <Link href="/genres">空き地</Link>
             </li>
             <li>
-              <Link href="/profile">プロフィール</Link>
+              <Link href="/profile">誰</Link>
             </li>
           </ul>
         </nav>
