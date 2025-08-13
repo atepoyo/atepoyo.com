@@ -10,10 +10,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body
-        className="flex flex-col min-h-screen"
-        suppressHydrationWarning
-      >
+      <head>
+        <link rel="icon" href="public/favicon.ico" />
+      </head>
+      <body className="flex flex-col min-h-screen" suppressHydrationWarning>
         <ThemeProvider>
           <Header />
           <main
