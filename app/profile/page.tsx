@@ -8,8 +8,8 @@ export default function ProfilePage() {
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
             <div className="w-32 h-32 flex items-center justify-center text-gray-500">
               <Image
-                src="/favicon.ico"
-                alt="favicon"
+                src="/icon.ico"
+                alt="icon"
                 width={96}
                 height={96}
                 className="rounded-full"
