@@ -126,12 +126,12 @@ article h1, .prose h1 {
 article h2, .prose h2 {
   font-size: 1.5rem;
   font-weight: bold;
-  margin: 1.5rem 0 1rem 0;
+  margin: 4rem 0 1rem 0;
 }
 article h3, .prose h3 {
   font-size: 1.2rem;
   font-weight: bold;
-  margin: 1.2rem 0 0.8rem 0;
+  margin: 4rem 0 0.8rem 0;
 }
 article ul, .prose ul {
   list-style: disc inside;
@@ -151,18 +151,26 @@ article blockquote, .prose blockquote {
   margin: 1rem 0;
 }
 article pre, .prose pre {
-  background: #f4f4f4;
+  background: #212121;
   padding: 1rem;
   border-radius: 4px;
   overflow-x: auto;
+  border: 1px solid #e5e7eb;
 }
 article code, .prose code {
-  background: #f4f4f4;
-  padding: 0.2em 0.4em;
+  background: #212121;
+  padding: 0.3em 0.4em;
   border-radius: 3px;
   font-size: 0.95em;
+  color: #c6c6c6;
 }
 article p, .prose p {
-  margin-bottom: 1rem;
   font-size: 1.05rem;
+  margin: 0.5rem 0;
+}
+
+/* 段落の後の段落 - 基本の余白 */
+article p:not(:empty) + p:not(:empty),
+.prose p:not(:empty) + p:not(:empty) {
+  margin-top: 1rem;
 }
