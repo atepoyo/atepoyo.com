@@ -10,6 +10,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
+      <head>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="atepoyo.com RSS Feed"
+          href="/rss.xml"
+        />
+      </head>
       <body className="flex flex-col min-h-screen" suppressHydrationWarning>
         <ThemeProvider>
           <Header />
