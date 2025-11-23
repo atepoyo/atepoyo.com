@@ -1,133 +1,97 @@
 // lib/posts.ts
 import fs from "fs";
 import path from "path";
-import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
+import { cache } from "react";
 
-const postsDirectory = path.join(process.cwd(), "posts");
+const generatedPostsPath = path.join(process.cwd(), "generated", "posts.json");
 
-export function getAllPosts() {
-  // postsディレクトリが存在しない場合は空の配列を返す
-  if (!fs.existsSync(postsDirectory)) {
-    return [];
-  }
+type PostRecord = {
+  slug: string;
+  title: string;
+  categories: string[];
+  tags: string[];
+  excerpt: string;
+  date: string;
+  contentHtml: string;
+};
 
-  const fileNames = fs.readdirSync(postsDirectory);
-  const posts = fileNames.map((fileName) => {
-    const slug = fileName.replace(/\.md$/, "");
-    const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-    const { data, content } = matter(fileContents);
+type PostSummary = Omit<PostRecord, "contentHtml">;
 
-    // MarkdownをHTMLに変換
-    const processedExcerpt = remark()
-      .use(html)
-      .processSync(content.split("\n")[0])
-      .toString();
-
-    return {
-      slug,
-      title: data.title || "No Title",
-      genre: data.genre || "uncategorized",
-      excerpt: processedExcerpt,
-      date:
-        typeof data.date === "string"
-          ? data.date
-          : data.date
-          ? String(data.date)
-          : "",
-    };
-  });
-  // 新しい順にソート
-  posts.sort((a, b) => {
+function sortPosts(posts: PostRecord[]): PostRecord[] {
+  return [...posts].sort((a, b) => {
     if (!a.date) return 1;
     if (!b.date) return -1;
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
-  return posts;
 }
 
-// RSSフィード生成関数
-export function generateRSSFeed(siteUrl: string = "https://atepoyo.com") {
-  const posts = getAllPosts();
-  const items = posts
-    .map(
-      (post) => `
-    <item>
-      <title>${post.title}</title>
-      <link>${siteUrl}/articles/${post.slug}</link>
-      <description>${post.excerpt.replace(/<[^>]+>/g, "")}</description>
-      <pubDate>${new Date(post.date).toUTCString()}</pubDate>
-      <guid>${siteUrl}/articles/${post.slug}</guid>
-    </item>`
-    )
-    .join("");
+function readGeneratedPosts(): PostRecord[] {
+  if (!fs.existsSync(generatedPostsPath)) {
+    throw new Error(
+      `Generated posts file not found at ${generatedPostsPath}. Run "npm run generate:posts" before building.`
+    );
+  }
+  try {
+    const raw = fs.readFileSync(generatedPostsPath, "utf8");
+    const parsed = JSON.parse(raw) as PostRecord[];
+    return sortPosts(parsed);
+  } catch (error) {
+    throw new Error(
+      `Failed to parse generated posts from ${generatedPostsPath}: ${error}`
+    );
+  }
+}
 
-  const rss = `<?xml version="1.0" encoding="UTF-8" ?>
-  <rss version="2.0">
-    <channel>
-      <title>atepoyo.com</title>
-      <link>${siteUrl}</link>
-      <description>ブログのRSSフィード</description>
-      ${items}
-    </channel>
-  </rss>`;
+const loadPostRecords = cache((): PostRecord[] => {
+  return readGeneratedPosts();
+});
 
-  // public/rss.xmlに書き出し
-  const rssPath = path.join(process.cwd(), "public", "rss.xml");
-  fs.writeFileSync(rssPath, rss);
+function getPostSummaries(): PostSummary[] {
+  return loadPostRecords().map(({ contentHtml, ...summary }) => {
+    void contentHtml;
+    return summary;
+  });
+}
+
+export function getAllPosts() {
+  return getPostSummaries();
+}
+
+export function getAllPostRecords() {
+  return loadPostRecords();
 }
 
 export function getPostsByGenre(genre: string) {
-  const posts = getAllPosts();
-  return posts.filter((post) => post.genre === genre);
+  return getPostSummaries().filter((post) => post.categories.includes(genre));
 }
 
 export function getAllGenres(): string[] {
-  const posts = getAllPosts();
-  const genres = new Set(posts.map((post) => post.genre));
-  return Array.from(genres);
+  const genres = new Set<string>();
+  getPostSummaries().forEach((post) => {
+    post.categories.forEach((category) => genres.add(category));
+  });
+  return Array.from(genres).sort((a, b) => a.localeCompare(b));
 }
 
 export function getPostBySlug(slug: string) {
-  const posts = getAllPosts();
-  const post = posts.find((post) => post.slug === slug);
+  const post = loadPostRecords().find((entry) => entry.slug === slug);
 
   if (!post) {
     return {
       slug: "not-found",
       title: "記事が見つかりません",
-      genre: "uncategorized",
+      categories: ["uncategorized"],
+      tags: [],
       contentHtml: "<p>お探しの記事は見つかりませんでした。</p>",
+      excerpt: "",
+      date: "",
     };
   }
 
-  const fullPath = path.join(postsDirectory, `${slug}.md`);
-  const fileContents = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(fileContents);
-
-  // Markdownをパースしてコンテンツを取得
-  const processedContent = remark().use(html).processSync(content).toString();
-
-  return {
-    slug,
-    title: data.title || "No Title",
-    genre: data.genre || "uncategorized",
-    contentHtml: processedContent,
-  };
+  return post;
 }
 
 // スラグ一覧を取得する関数
 export function getAllSlugs() {
-  if (!fs.existsSync(postsDirectory)) {
-    return [];
-  }
-
-  const fileNames = fs.readdirSync(postsDirectory);
-  return fileNames.map((fileName) => {
-    return {
-      slug: fileName.replace(/\.md$/, ""),
-    };
-  });
+  return loadPostRecords().map(({ slug }) => ({ slug }));
 }

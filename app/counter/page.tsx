@@ -1,7 +1,6 @@
-'use server';
 import { Counter } from "@/components/counter";
 
-export default async function counterPage() {
+export default function CounterPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Counter Page</h1>

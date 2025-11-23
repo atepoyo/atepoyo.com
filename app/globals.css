@@ -7,6 +7,7 @@
   --header-padding: 0.5rem; /* ヘッダーの上下パディング */
   --article-top-margin: 0rem; /* 記事ページの上部余白 */
   --list-top-margin: 2rem; /* 記事一覧ページの上部余白 */
+  --content-top-offset: calc(var(--header-height) + var(--header-padding) * 2);
 }
 
 @theme inline {
@@ -74,7 +75,7 @@ footer {
 }
 
 main {
-  margin-top: calc(var(--header-height) + calc(var(--header-padding) * 2));
+  padding-top: var(--content-top-offset);
 }
 
 /* Tailwindのcontainerクラスを無効化 */

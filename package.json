@@ -6,7 +6,10 @@
     "node": ">=22.0.0"
   },
   "scripts": {
+    "predev": "npm run generate:posts",
     "dev": "next dev",
+    "generate:posts": "node scripts/build-posts-json.mjs",
+    "prebuild": "npm run generate:posts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

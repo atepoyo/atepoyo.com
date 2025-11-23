@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { getPostBySlug, getAllSlugs } from "@/lib/posts";
 
 export async function generateStaticParams() {
@@ -5,22 +6,15 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug: slug.slug }));
 }
 
-export default async function PostPage({
+export default function PostPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params;
   const post = getPostBySlug(slug);
 
-  if (post.slug === "not-found") {
-    return (
-      <div>
-        <h1 className="text-2xl font-bold mb-4">記事が見つかりません</h1>
-        <p>お探しの記事は存在しないか、削除された可能性があります。</p>
-      </div>
-    );
-  }
+  if (post.slug === "not-found") notFound();
 
   return (
     <article
@@ -33,11 +27,14 @@ export default async function PostPage({
   );
 }
 
-export async function generateMetadata({ params,
+export function generateMetadata({ params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params;
   const post = getPostBySlug(slug);
+  if (post.slug === "not-found") {
+    notFound();
+  }
   return { title: post.title };
 }
