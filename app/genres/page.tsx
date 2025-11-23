@@ -1,14 +1,14 @@
-import { getAllGenres } from '@/lib/posts';
-import Link from 'next/link';
+import { getAllGenres } from "@/lib/posts";
+import Link from "next/link";
 
 export default async function GenresPage() {
   const genres = getAllGenres();
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">ジャンル一覧</h1>
+      <h1 className="text-2xl font-bold mb-4">カテゴリ一覧</h1>
       {genres.length === 0 ? (
-        <p>ジャンルがまだありません。</p>
+        <p>カテゴリがまだありません。</p>
       ) : (
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {genres.map((genre) => (

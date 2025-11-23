@@ -1,7 +1,25 @@
+import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import ThemeProvider from "@/components/theme-provider";
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://atepoyo.com"),
+  title: {
+    default: "atepoyo.com",
+    template: "%s | atepoyo.com",
+  },
+  description: "atepoyoが気ままに綴るブログ。",
+  authors: [{ name: "atepoyo" }],
+  alternates: {
+    types: {
+      "application/rss+xml": [
+        { title: "atepoyo.com RSS Feed", url: "/rss.xml" },
+      ],
+    },
+  },
+};
 
 export default function RootLayout({
   children,
@@ -10,20 +28,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <head>
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          title="atepoyo.com RSS Feed"
-          href="/rss.xml"
-        />
-      </head>
       <body className="flex flex-col min-h-screen" suppressHydrationWarning>
         <ThemeProvider>
           <Header />
           <main
             className="flex-grow"
-            style={{ paddingTop: "var(--content-top-margin)" }}
+            style={{ paddingTop: "var(--content-top-offset)" }}
           >
             {children}
           </main>
