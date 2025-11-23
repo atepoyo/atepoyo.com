@@ -6,12 +6,12 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug: slug.slug }));
 }
 
-export default function PostPage({
+export default async function PostPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
   const post = getPostBySlug(slug);
 
   if (post.slug === "not-found") notFound();
@@ -27,11 +27,12 @@ export default function PostPage({
   );
 }
 
-export function generateMetadata({ params,
+export async function generateMetadata({
+  params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
   const post = getPostBySlug(slug);
   if (post.slug === "not-found") {
     notFound();
