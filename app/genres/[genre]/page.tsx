@@ -9,20 +9,24 @@ export function generateStaticParams() {
   return getAllGenres().map((genre) => ({ genre }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { genre: string };
-}): Metadata {
-  const { genre } = params;
+  params: Promise<{ genre: string }>;
+}): Promise<Metadata> {
+  const { genre } = await params;
   return {
     title: `カテゴリ: ${genre}`,
     description: `${genre}に属する記事一覧 | ${siteTitle}`,
   };
 }
 
-export default function GenrePage({ params }: { params: { genre: string } }) {
-  const { genre } = params;
+export default async function GenrePage({
+  params,
+}: {
+  params: Promise<{ genre: string }>;
+}) {
+  const { genre } = await params;
   const posts = getPostsByGenre(genre);
 
   if (posts.length === 0) notFound();
