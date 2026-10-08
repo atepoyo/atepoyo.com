@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getGenres, getPosts } from "../../lib/posts.ts";
+import { formatPostDate } from "../../lib/post-metadata.ts";
 export async function getStaticPaths() {
   const posts = await getPosts();
   return (await getGenres()).map((genre) => ({
@@ -14,9 +15,12 @@ const { genre, posts } = Astro.props;
 <Base title={"カテゴリ: " + genre} description={genre + "に属する記事一覧 | atepoyo.com"}>
   <div class="container-header" style="padding-top: var(--list-top-margin)">
     <h1 class="text-2xl font-bold mb-4">カテゴリ: {genre}</h1>
-    <ul>
+    <ul class="text-left w-full">
       {posts.map((post) => (
-        <li class="mb-4">
+        <li class="mb-8">
+          <time class="block text-sm text-gray-500 mb-1" datetime={post.data.date.toISOString()}>
+            {formatPostDate(post.data.date)}
+          </time>
           <h2 class="text-xl font-semibold"><a href={"/articles/" + post.id}>{post.data.title}</a></h2>
         </li>
       ))}
