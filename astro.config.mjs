@@ -6,6 +6,7 @@ export default defineConfig({
   vite: { plugins: [tailwindcss()] },
   site: "https://atepoyo.com",
   output: "static",
+  prefetch: true,
   trailingSlash: "never",
   build: { format: "file" },
   markdown: markdownOptions,
