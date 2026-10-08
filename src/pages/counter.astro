@@ -1,0 +1,26 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base>
+  <div class="container-header" style="padding-top: var(--list-top-margin)">
+    <h1 class="text-2xl font-bold mb-4">Counter Page</h1>
+    <p>カウンターページのコンポーネントです。</p>
+    <div>
+      <div id="count">...</div>
+      <button id="increment" class="bg-blue-500 text-white px-4 py-2 rounded">Increment</button>
+    </div>
+    <p>カウンターの値は、ボタンを押すと増えます。</p>
+  </div>
+</Base>
+<script>
+  const countElement = document.getElementById("count");
+  const button = document.getElementById("increment");
+  if (countElement && button) {
+    let count = Math.floor(Math.random() * 100);
+    countElement.textContent = String(count);
+    button.addEventListener("click", () => {
+      count += 1;
+      countElement.textContent = String(count);
+    });
+  }
+</script>

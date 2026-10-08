@@ -1,0 +1,25 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getGenres, getPosts } from "../../lib/posts.ts";
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return (await getGenres()).map((genre) => ({
+    params: { genre },
+    props: { genre, posts: posts.filter((post) => post.data.categories.includes(genre)) },
+  }));
+}
+type Props = { genre: string; posts: Awaited<ReturnType<typeof getPosts>> };
+const { genre, posts } = Astro.props;
+---
+<Base title={"カテゴリ: " + genre} description={genre + "に属する記事一覧 | atepoyo.com"}>
+  <div class="container-header" style="padding-top: var(--list-top-margin)">
+    <h1 class="text-2xl font-bold mb-4">カテゴリ: {genre}</h1>
+    <ul>
+      {posts.map((post) => (
+        <li class="mb-4">
+          <h2 class="text-xl font-semibold"><a href={"/articles/" + post.id}>{post.data.title}</a></h2>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>
