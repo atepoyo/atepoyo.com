@@ -1,0 +1,19 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getGenres } from "../../lib/posts.ts";
+const genres = await getGenres();
+---
+<Base>
+  <div class="container-header" style="padding-top: var(--list-top-margin)">
+    <h1 class="text-2xl font-bold mb-4">カテゴリ一覧</h1>
+    {genres.length === 0 ? <p>カテゴリがまだありません。</p> : (
+      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {genres.map((genre) => (
+          <li class="bg-gray-100 p-4 rounded-lg">
+            <a href={"/genres/" + genre} class="text-xl font-semibold hover:text-blue-500">{genre}</a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</Base>
