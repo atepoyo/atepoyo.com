@@ -14,7 +14,7 @@ const { genre, posts } = Astro.props;
 ---
 <Base title={"カテゴリ: " + genre} description={genre + "に属する記事一覧 | atepoyo.com"}>
   <div class="container-header" style="padding-top: var(--list-top-margin)">
-    <h1 class="text-2xl font-bold mb-4">カテゴリ: {genre}</h1>
+    <h1 class="text-2xl font-bold" style="margin-bottom: 2rem">カテゴリ: {genre}</h1>
     <ul class="text-left w-full">
       {posts.map((post) => (
         <li class="mb-8">
