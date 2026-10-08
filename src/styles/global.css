@@ -203,10 +203,6 @@ article p:not(:empty) + p:not(:empty),
   border-color: #ccc;
 }
 
-.profile-page {
-  overflow-wrap: anywhere;
-}
-
 @media (max-width: 600px) {
   .container-header {
     padding-left: 20px;
