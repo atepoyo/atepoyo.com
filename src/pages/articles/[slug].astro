@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import ArticleImages from "../../components/ArticleImages.astro";
 import { getPosts, getPostHtml } from "../../lib/posts.ts";
 export async function getStaticPaths() {
   return (await getPosts()).map((post) => ({
@@ -13,6 +14,6 @@ const { post } = Astro.props;
 <Base title={post.data.title}>
   <article class="container-header" style="padding-top: var(--article-top-margin)">
     <h1 class="text-2xl font-bold mb-8">{post.data.title}</h1>
-    <div class="prose" set:html={getPostHtml(post)} />
+    <ArticleImages html={getPostHtml(post)} />
   </article>
 </Base>
