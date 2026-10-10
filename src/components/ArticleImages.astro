@@ -1,0 +1,45 @@
+---
+interface Props {
+  html: string;
+}
+const { html } = Astro.props;
+---
+<div class="prose article-images" set:html={html} />
+<dialog class="image-lightbox" aria-label="画像の拡大表示">
+  <button class="image-lightbox-close" type="button" aria-label="画像を閉じる" autofocus>×</button>
+  <img class="image-lightbox-image" alt="" />
+</dialog>
+
+<script>
+  const dialog = document.querySelector(".image-lightbox");
+  const enlargedImage = dialog?.querySelector(".image-lightbox-image");
+  const closeButton = dialog?.querySelector(".image-lightbox-close");
+
+  if (dialog instanceof HTMLDialogElement && enlargedImage instanceof HTMLImageElement) {
+    document.querySelectorAll(".article-images img").forEach((image) => {
+      if (!(image instanceof HTMLImageElement) || image.closest("a, button")) return;
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "image-thumbnail";
+      button.setAttribute("aria-label", image.alt ? `${image.alt}を拡大表示` : "画像を拡大表示");
+      button.setAttribute("aria-haspopup", "dialog");
+      image.replaceWith(button);
+      button.append(image);
+      button.addEventListener("click", () => {
+        enlargedImage.src = image.currentSrc || image.src;
+        enlargedImage.alt = image.alt;
+        dialog.showModal();
+      });
+    });
+
+    closeButton?.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("close", () => {
+      enlargedImage.removeAttribute("src");
+      enlargedImage.alt = "";
+    });
+  }
+</script>
