@@ -193,7 +193,7 @@ article p:not(:empty) + p:not(:empty),
 
 .article-images img {
   width: auto;
-  max-height: min(420px, 60vh);
+  max-height: min(508.2px, 72.6vh);
 }
 
 .image-thumbnail {
