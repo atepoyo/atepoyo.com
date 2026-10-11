@@ -4,18 +4,25 @@ import ArticleImages from "../../components/ArticleImages.astro";
 import { getPosts, getPostHtml } from "../../lib/posts.ts";
 import { getExcerpt, getFirstImageSrc } from "../../lib/post-html.ts";
 export async function getStaticPaths() {
-  return (await getPosts()).map((post) => ({
+  const posts = await getPosts();
+  return posts.map((post, index) => ({
     params: { slug: post.id },
-    props: { post },
+    props: { post, newerPost: posts[index - 1], olderPost: posts[index + 1] },
   }));
 }
-type Props = { post: Awaited<ReturnType<typeof getPosts>>[number] };
-const { post } = Astro.props;
+type Post = Awaited<ReturnType<typeof getPosts>>[number];
+type Props = { post: Post; newerPost?: Post; olderPost?: Post };
+const { post, newerPost, olderPost } = Astro.props;
 const html = getPostHtml(post);
 ---
 <Base title={post.data.title} description={getExcerpt(html)} image={getFirstImageSrc(html)} type="article">
   <article class="container-header" style="padding-top: var(--article-top-margin)">
     <h1 class="text-2xl font-bold mb-8">{post.data.title}</h1>
     <ArticleImages html={html} />
+    <nav aria-label="記事ナビゲーション" class="article-navigation grid grid-cols-3 items-center">
+      {newerPost ? <a href={`/articles/${newerPost.id}`}>未来の記事</a> : <span aria-hidden="true"></span>}
+      <a href="/">トップ</a>
+      {olderPost ? <a href={`/articles/${olderPost.id}`}>過去の記事</a> : <span aria-hidden="true"></span>}
+    </nav>
   </article>
 </Base>
