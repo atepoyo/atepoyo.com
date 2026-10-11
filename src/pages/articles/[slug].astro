@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import ArticleImages from "../../components/ArticleImages.astro";
 import { getPosts, getPostHtml } from "../../lib/posts.ts";
+import { getExcerpt, getFirstImageSrc } from "../../lib/post-html.ts";
 export async function getStaticPaths() {
   return (await getPosts()).map((post) => ({
     params: { slug: post.id },
@@ -10,10 +11,11 @@ export async function getStaticPaths() {
 }
 type Props = { post: Awaited<ReturnType<typeof getPosts>>[number] };
 const { post } = Astro.props;
+const html = getPostHtml(post);
 ---
-<Base title={post.data.title}>
+<Base title={post.data.title} description={getExcerpt(html)} image={getFirstImageSrc(html)} type="article">
   <article class="container-header" style="padding-top: var(--article-top-margin)">
     <h1 class="text-2xl font-bold mb-8">{post.data.title}</h1>
-    <ArticleImages html={getPostHtml(post)} />
+    <ArticleImages html={html} />
   </article>
 </Base>

@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { markdownOptions } from "../src/lib/markdown.ts";
-import { getExcerpt, getFeedHtml } from "../src/lib/post-html.ts";
+import { getExcerpt, getFeedHtml, getFirstImageSrc } from "../src/lib/post-html.ts";
 
 const renderer = await markdownOptions.processor.createRenderer(markdownOptions);
 async function html(markdown: string) {
@@ -53,6 +53,12 @@ describe("サイト側のMarkdown表示", () => {
     const result = await html('# 見出し\n\n![写真](/a.jpg "説明")\n\n最初の **本文** & 内容。\n\n次の段落。');
     assert.equal(getExcerpt(result), "最初の 本文 & 内容。");
     assert.equal(getExcerpt(await html('![写真](/a.jpg "説明")')), "");
+  });
+
+  it("OGP画像に最初のWeb画像を使い、不正なURLを除外する", async () => {
+    const result = await html('# 見出し\n\n![写真](javascript:alert%281%29)\n\n![正しい画像](/photos/a.jpg)\n\n![次の画像](https://images.example.com/b.jpg)');
+    assert.equal(getFirstImageSrc(result), "/photos/a.jpg");
+    assert.equal(getFirstImageSrc(await html("本文だけ")), undefined);
   });
 
   it("RSSにも本文とキャプションを含め内部リンクや画像URLを絶対URLにする", async () => {
