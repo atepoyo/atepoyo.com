@@ -16,6 +16,19 @@ export function getExcerpt(html: string): string {
   return excerpt;
 }
 
+export function getFirstImageSrc(html: string): string | undefined {
+  const tree = fromHtml(html, { fragment: true });
+  let imageSrc: string | undefined;
+  visit(tree, "element", (node) => {
+    if (node.tagName !== "img") return;
+    const src = node.properties.src;
+    if (typeof src !== "string" || !/^https?:\/\//i.test(src) && !src.startsWith("/")) return;
+    imageSrc = src;
+    return EXIT;
+  });
+  return imageSrc;
+}
+
 export function getFeedHtml(html: string, siteUrl: string): string {
   const tree = fromHtml(html, { fragment: true });
   visit(tree, "element", (node) => {
