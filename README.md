@@ -16,13 +16,20 @@ npm run dev
 ## 検証と静的出力
 
 ```sh
-npm run check
-npm run lint
-npm test
-npm run build
+npm run validate
 npm run preview
 ```
 
 出力先は `dist/` です。記事・カテゴリ・固定ページ・全文RSSを含み、閲覧時のNodeサーバーは不要です。
 
-Cloudflare Pagesではビルドコマンドを `npm run build`、出力ディレクトリを `dist` に指定します。`atepoyo.com` を接続する際はCloudflareのDNS設定が必要です。公開サービスの設定はコードのビルドとは別に行います。
+`npm run validate` は型チェック、lint、テスト、ビルドを順に実行し、途中で失敗したら停止します。ローカル、GitHub Actions、Vercelで同じコマンドを使います。CIではNode.js 22を使用します。
+
+## 公開
+
+コード変更は作業ブランチから `main` へのPRを作成します。GitHub Actionsの `Validate` とVercelのプレビューデプロイが成功したことを確認し、プレビューで変更箇所を確認してからマージします。
+
+`main` へのマージでVercelが本番公開します。Pushやマージの完了だけで公開済みとせず、対象コミットの `Vercel` ステータスが成功したことを確認します。
+
+記事は従来どおりEditorから投稿できます。投稿用GitHub Appだけが `main` のPR・必須チェックのルールをバイパスし、記事を直接保存します。Appによる記事パスの検証と、公開前のVercelでの `npm run validate` により投稿を検証します。GitHubの例外はApp単位で、ファイルパス単位ではありません。
+
+`main` の保護ルールはGitHub側で設定します。PRと `Validate`・`Vercel` の成功を必須にし、例外は投稿用Appに限定します。
