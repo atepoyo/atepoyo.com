@@ -1,6 +1,6 @@
 {
   "framework": "astro",
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run validate",
   "outputDirectory": "dist",
   "cleanUrls": true,
   "headers": [
