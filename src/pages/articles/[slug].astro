@@ -3,6 +3,7 @@ import Base from "../../layouts/Base.astro";
 import ArticleImages from "../../components/ArticleImages.astro";
 import { getPosts, getPostHtml } from "../../lib/posts.ts";
 import { getExcerpt, getFirstImageSrc } from "../../lib/post-html.ts";
+import { formatPostDate } from "../../lib/post-metadata.ts";
 export async function getStaticPaths() {
   const posts = await getPosts();
   return posts.map((post, index) => ({
@@ -17,6 +18,9 @@ const html = getPostHtml(post);
 ---
 <Base title={post.data.title} description={getExcerpt(html)} image={getFirstImageSrc(html)} type="article">
   <article class="container-header" style="padding-top: var(--article-top-margin)">
+    <time class="block text-sm text-gray-500 mb-1" datetime={post.data.date.toISOString()}>
+      {formatPostDate(post.data.date)}
+    </time>
     <h1 class="text-2xl font-bold mb-8">{post.data.title}</h1>
     <ArticleImages html={html} />
     <nav aria-label="記事ナビゲーション" class="article-navigation grid grid-cols-3 items-center">
