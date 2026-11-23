@@ -24,12 +24,13 @@ export const postMetadataSchema = sourceMetadata.transform((metadata) => ({
 
 export function getPostId(entry: string, data: unknown): string {
   const id = entry.replace(/\.md$/, "");
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(id)) {
-    throw new Error("記事のファイル名はYYYY-MM-DD.mdにしてください: " + entry);
+  const match = /^(\d{4}-\d{2}-\d{2})(?:-([2-9]\d*))?$/.exec(id);
+  if (!match) {
+    throw new Error("記事のファイル名はYYYY-MM-DD.mdまたはYYYY-MM-DD-N.mdにしてください: " + entry);
   }
   const metadata = sourceMetadata.parse(data);
   // 旧記事では深夜投稿などでファイル名と公開日時が異なる。
-  if (typeof metadata.date === "string" && metadata.date.length === 10 && metadata.date !== id) {
+  if (typeof metadata.date === "string" && metadata.date.length === 10 && metadata.date !== match[1]) {
     throw new Error("暦日のdateとファイル名が一致しません: " + entry);
   }
   return id;

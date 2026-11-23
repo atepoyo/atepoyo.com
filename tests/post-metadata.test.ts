@@ -27,6 +27,14 @@ describe("記事の日時とURL", () => {
     assert.throws(() => getPostId("article.md", { title: "記事", date: "2026-10-07" }), /ファイル名/);
   });
 
+  it("同じ暦日の連番記事に一意なIDを割り当てて暦日を検証する", () => {
+    const source = { title: "記事", date: "2026-11-24" };
+    assert.equal(getPostId("2026-11-24.md", source), "2026-11-24");
+    assert.equal(getPostId("2026-11-24-2.md", source), "2026-11-24-2");
+    assert.throws(() => getPostId("2026-11-25-2.md", source), /一致しません/);
+    assert.throws(() => getPostId("2026-11-24-1.md", source), /ファイル名/);
+  });
+
   it("空タイトルや存在しない日付やカテゴリの型違いを拒否する", () => {
     for (const input of [
       { title: " ", date: "2026-10-07" },
